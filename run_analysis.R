@@ -34,6 +34,7 @@
 # 2) source this code: source("run_analysis.R")
 # 3) Execute run_analysis(dir) where dir should be the path to the uncompressed UCI code
 # 4) The return is the tidy data frame described in the COdeBook.md file
+
 ##----------------------------------------------------------------------------------------------
 ##----------------------------------------------------------------------------------------------
 
@@ -89,9 +90,11 @@ run_analysis <- function(uci_dir="."){
     #Reduce to the columns that are wanted with mean and std
     # since selCol is only for the measurements, need to also keep the first two cols
     # for subject and activity, then mask out the rawData using selCol to subselect cols
-    selCol <- c(TRUE, TRUE, selCol)
+    selCol[1] <- TRUE
+    selCol[2] <- TRUE
     reducedData <-rawData[ ,selCol]
-    write(colNames,"./reducedColNames.txt")
+    newColNames <- colnames(reducedData)
+    write(newColNames,"./reducedColNames.txt")
     
     #Now will create a summary table with average of measurements for each subject and activity
     reducedData <- group_by(reducedData, subject, activity)
